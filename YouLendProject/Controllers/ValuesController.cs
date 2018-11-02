@@ -9,31 +9,41 @@ namespace YouLendProject.Controllers
 {
     public class ValuesController : ApiController
     {
+        YouLendProject.Models.MainModel model = new YouLendProject.Models.MainModel();
+
+        static List<string> sList = new List<string>()
+        {
+              "value1", "value2"  
+        };
         // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return sList;
         }
 
         // GET api/values/5
         public string Get(int id)
         {
-            return "value";
+            
+            return sList[id];
         }
 
         // POST api/values
         public void Post([FromBody]string value)
         {
+            sList.Add(value);
         }
 
         // PUT api/values/5
         public void Put(int id, [FromBody]string value)
         {
+            sList[id] = value;
         }
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            sList.RemoveAt(id);
         }
     }
 }
