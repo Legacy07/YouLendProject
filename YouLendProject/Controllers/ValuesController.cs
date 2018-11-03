@@ -9,12 +9,12 @@ namespace YouLendProject.Controllers
 {
     public class ValuesController : ApiController
     {
-        YouLendProject.Models.MainModel model = new YouLendProject.Models.MainModel();
 
         static List<string> sList = new List<string>()
         {
-              "value1", "value2"  
+                
         };
+
         // GET api/values
         public IEnumerable<string> Get()
         {
