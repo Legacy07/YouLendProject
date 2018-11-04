@@ -37,6 +37,7 @@ namespace YouLendProject.Controllers
         }
 
         [HttpPost]
+        //[Route(template: "")]
         public HttpResponseMessage AddLoan([FromBody]Lend loan)
         {
             try

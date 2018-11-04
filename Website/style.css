@@ -34,15 +34,39 @@ div.box {
     float: left;
 }
 
-    div.box p 
-    {
+    div.box p {
         font-family: 'Montserrat', sans-serif;
         font-weight: 700;
         font-size: 1.5em;
         border-bottom: 0.1em solid gray;
         border-bottom-width: thin;
         display: block;
-        margin-top: -5%;
+        margin-top: 0%;
+    }
+
+div.getAllBox {
+    padding: 0.8em;
+    margin: 0;
+    text-align: center;
+    position: absolute;
+    border: 0.2em solid;
+    background-color: lightgray;
+    width: 68%;
+    margin-top: 32%;
+    margin-left: 5.5%;
+    height: 30%;
+    margin-bottom: 5%;
+    overflow-y: scroll;
+}
+
+    div.getAllBox p {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.5em;
+        border-bottom: 0.1em solid gray;
+        border-bottom-width: thin;
+        display: block;
+        margin-top: 0%;
     }
 
 input[type=submit] {
@@ -56,4 +80,10 @@ input[type=submit] {
     width: 100%;
     color: white;
     text-decoration: solid;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-left: 0;
 }

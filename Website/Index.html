@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Poppins" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <title>YouLend Admin</title>
+</head>
+<body>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var loanList = $('#allLoansList');
+            //display all loans once the button is clicked
+            $('#getAllLoansButton').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "http://localhost:6970/api/database",
+                    dataType: 'jsonp',
+                    success: function (data) {
+                        loanList.empty();
+                        $.each(data, function (index, value) {
+                            var loans = '<b>Client Name:</b> ' + value.BorrowerName + ', <b>Loan Amount:</b> £' + value.LoanAmount + ', <b>Repayment Amount:</b> £' + value.RepaymentAmount;
+                            loanList.append('<li>' + loans + '</li>' + '<hr>');
+                        });
+                    }
+                });
+            });
+            //clear the loans list
+            $('#clearButton').click(function () {
+                loanList.empty();
+            });
+            //add a loan
+            $('#addLoanSubmitButton').click(function () {
+                $.ajax({
+                    method: 'POST',
+                    url: "http://localhost:6970/api/database",
+                    dataType: 'jsonp',
+                    data: {
+                        Id: $('#loanId').val(),
+                        BorrowerName: $('#clientName').val(),
+                        LoanAmount: $('#loanAmount').val(),
+                        RepaymentAmount: $('#repaymentAmount').val()
+                    },
+                    success: function () {
+                        $("p").append(" <b>LOAN ADDED</b>.");
+
+                    },
+                    //error in any jquery, xml, http request object
+                    error: function (jqXHR) {
+                        $("p").append(" <b>ERROR!</b>." + jqXHR.responseText);
+
+                    }
+                });
+
+            });
+
+            //get a single loan
+            $('#getLoanSubmitButton').click(function () {
+                var loanId = $('#getLoanId');
+
+                /*$.ajax({
+                    method: 'POST',
+                    url: "http://localhost:6970/api/database",
+                    contentType: 'application/jsonp',
+                    data: {
+                        getloanId: $('#getLoanId').val()
+                    },
+                    success: function () {
+                        $('#loanOutput').append("<b>"+"</b>");
+
+                    },
+                    //error in any jquery, xml, http request object
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                */
+            });
+        });
+    </script>
+
+    <!--slider updater-->
+    <script>
+        function updateRangeInput(val) {
+            document.getElementById('rangeInput').value = val;
+        }
+    </script>
+    <p>Anything</p>
+    <section>
+        <p><b>Admin</b></p>
+
+        <!--Add a loan-->
+        <div class="box">
+            <p><b>Add a Loan</b></p>
+            <form>
+                Id:<br>
+                <input type="number" id="loanId" required>
+                <br>
+                Client Name:<br>
+                <input type="text" id="clientName" required>
+                <br>
+                Amount to borrow:<br>
+                <input type="range" name="loanRange" min="1000" max="10000" value="5000" oninput="this.form.loanAmount.value=this.value" />
+                <br />
+                <input type="number" id="loanAmount" name="loanAmount" min="1000" max="10000" value="5000" oninput="this.form.loanRange.value=this.value" />
+                <br />
+                Repayment Amount:<br>
+                <input type="text" id="repaymentAmount" name="repaymentAmount" value="">
+                <br><br>
+                <input type="submit" id="addLoanSubmitButton" value="Submit">
+            </form>
+        </div>
+
+        <!--Delete a Loan-->
+        <div class="box">
+            <p><b>Delete a Loan</b></p>
+            <form>
+                Loan Id:<br>
+                <input type="number" name="loanId" required>
+                <br><br />
+                <input type="submit" id="deleteLoanSubmitButton" value="Submit">
+            </form>
+        </div>
+
+        <!--Get a single loan-->
+        <div class="box">
+            <p><b>Get a Loan</b></p>
+            <form>
+                Loan Id:<br>
+                <input type="number" id="getLoanId" name="loanId" required>
+                <br><br />
+                <input type="submit" name="getLoanSubmitButton" value="Submit">
+                <p id="loanOutput"></p>
+            </form>
+        </div>
+
+        <!--Get all loans-->
+        <div class="getAllBox">
+            <p><b>Get All Loans</b></p>
+            <input type="submit" id="getAllLoansButton" value="Show All">
+            <ul id="allLoansList"></ul>
+            <input type="button" id="clearButton" value="Clear All">
+
+        </div>
+    </section>
+
+</body>
+</html>
