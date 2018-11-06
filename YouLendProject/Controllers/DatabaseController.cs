@@ -8,8 +8,10 @@ using DatabaseAccess;
 
 namespace YouLendProject.Controllers
 {
+    [RoutePrefix("api/database")]
     public class DatabaseController : ApiController
     {
+        [HttpGet]
         public IEnumerable<Lend> GetAllLoans()
         {
             using (databaseEntities dbEntities = new databaseEntities())
@@ -17,7 +19,8 @@ namespace YouLendProject.Controllers
                 return dbEntities.Lends.ToList();
             }
         }
-
+        [HttpGet]
+        //[Route("{id}")]
         public Lend GetLoan(int id)
         {
             using (databaseEntities dbEntities = new databaseEntities())
@@ -36,9 +39,11 @@ namespace YouLendProject.Controllers
             }
         }
 
+        //[AllowAnonymous]
+        [System.Web.Http.AcceptVerbs("POST")]
         [HttpPost]
-        //[Route(template: "")]
-        public HttpResponseMessage AddLoan([FromBody]Lend loan)
+        //[Route("post")]
+        public HttpResponseMessage Post(Lend loan)
         {
             try
             {
@@ -61,8 +66,9 @@ namespace YouLendProject.Controllers
             }
 
         }
-
-        public HttpResponseMessage DeleteLoan(int id)
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
             try
             {

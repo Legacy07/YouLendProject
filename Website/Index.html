@@ -19,7 +19,7 @@
                 $.ajax({
                     type: 'GET',
                     url: "http://localhost:6970/api/database",
-                    dataType: 'jsonp',
+                    dataType: 'json',
                     success: function (data) {
                         loanList.empty();
                         $.each(data, function (index, value) {
@@ -36,9 +36,10 @@
             //add a loan
             $('#addLoanSubmitButton').click(function () {
                 $.ajax({
-                    method: 'POST',
+                    type: 'POST',
                     url: "http://localhost:6970/api/database",
-                    dataType: 'jsonp',
+                    crossDomain: true,
+                    dataType: 'json',
                     data: {
                         Id: $('#loanId').val(),
                         BorrowerName: $('#clientName').val(),
@@ -46,13 +47,31 @@
                         RepaymentAmount: $('#repaymentAmount').val()
                     },
                     success: function () {
-                        $("p").append(" <b>LOAN ADDED</b>.");
+                        alert("LOAN ADDED!");
+
 
                     },
                     //error in any jquery, xml, http request object
                     error: function (jqXHR) {
-                        $("p").append(" <b>ERROR!</b>." + jqXHR.responseText);
+                        alert("ERROR!: " + jqXHR.responseText);
+                    }
+                });
+                
 
+            });
+            //delete loan
+            $('#deleteLoanSubmitButton').click(function () {
+                var loanId = $('#deleteLoanId').val();
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: "http://localhost:6970/api/database/delete/" + loanId,
+                    success: function () {
+                        alert("LOAN DELETED!");
+                    },
+                    //error in any jquery, xml, http request object
+                    error: function (jqXHR) {
+                        alert("ERROR!: " + jqXHR.responseText);
                     }
                 });
 
@@ -60,27 +79,33 @@
 
             //get a single loan
             $('#getLoanSubmitButton').click(function () {
-                var loanId = $('#getLoanId');
-
-                /*$.ajax({
+                var getLoanId = $('#getLoanId').val();
+                $.ajax({
+                    url: "http://localhost:6970/api/database/" + getLoanId,
                     method: 'POST',
-                    url: "http://localhost:6970/api/database",
-                    contentType: 'application/jsonp',
-                    data: {
-                        getloanId: $('#getLoanId').val()
+                    contentType: 'application/json',
+                    //data: '{id:' + getLoanId + '}',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#getOutputMessage").text(" yh : " + data.d.BorrowerName);
+                        alert("yh boi");
                     },
-                    success: function () {
-                        $('#loanOutput').append("<b>"+"</b>");
-
-                    },
-                    //error in any jquery, xml, http request object
                     error: function (jqXHR) {
-                        $('#divErrorText').text(jqXHR.responseText);
-                        $('#divError').show('fade');
+                        alert("ERROR!: " + jqXHR.responseText);
                     }
-                */
+                });
+            });
+            //calculate repayment amount
+            $("#calculateButton").click(function () {
+                var repayment = $('#loanAmount').val();
+
+                $("#repaymentAmount").val(function () {
+                    return parseInt(repayment * 1.1);
+                });
             });
         });
+
+
     </script>
 
     <!--slider updater-->
@@ -89,9 +114,9 @@
             document.getElementById('rangeInput').value = val;
         }
     </script>
-    <p>Anything</p>
+
+    <!--<p class="sectionHeader"><b>Admin</b></p>-->
     <section>
-        <p><b>Admin</b></p>
 
         <!--Add a loan-->
         <div class="box">
@@ -108,10 +133,12 @@
                 <br />
                 <input type="number" id="loanAmount" name="loanAmount" min="1000" max="10000" value="5000" oninput="this.form.loanRange.value=this.value" />
                 <br />
+                <input type="button" id="calculateButton" value="Calculate" />
+                <br />
                 Repayment Amount:<br>
-                <input type="text" id="repaymentAmount" name="repaymentAmount" value="">
+                <input type="text" id="repaymentAmount" name="repaymentAmount" value="" readonly>
                 <br><br>
-                <input type="submit" id="addLoanSubmitButton" value="Submit">
+                <input type="button" class="button" id="addLoanSubmitButton" value="Submit Loan">
             </form>
         </div>
 
@@ -120,9 +147,9 @@
             <p><b>Delete a Loan</b></p>
             <form>
                 Loan Id:<br>
-                <input type="number" name="loanId" required>
+                <input type="number" id="deleteLoanId" required>
                 <br><br />
-                <input type="submit" id="deleteLoanSubmitButton" value="Submit">
+                <input type="button" class="button" id="deleteLoanSubmitButton" value="Delete Loan">
             </form>
         </div>
 
@@ -131,17 +158,17 @@
             <p><b>Get a Loan</b></p>
             <form>
                 Loan Id:<br>
-                <input type="number" id="getLoanId" name="loanId" required>
+                <input type="number" id="getLoanId" required>
                 <br><br />
-                <input type="submit" name="getLoanSubmitButton" value="Submit">
-                <p id="loanOutput"></p>
+                <input type="button" class="button" name="getLoanSubmitButton" value="Get Loan">
+                <p id="getOutputMessage">Get</p>
             </form>
         </div>
 
         <!--Get all loans-->
         <div class="getAllBox">
             <p><b>Get All Loans</b></p>
-            <input type="submit" id="getAllLoansButton" value="Show All">
+            <input type="button" class="button" id="getAllLoansButton" value="Show All">
             <ul id="allLoansList"></ul>
             <input type="button" id="clearButton" value="Clear All">
 

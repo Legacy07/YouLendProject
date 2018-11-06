@@ -18,9 +18,16 @@ section {
     /*    margin-left: 10%;*/
     margin-top: 5%;
     display: flex;
-    margin-left: 6%;
+    /margin-left: 6%;
+    border: 0.2em solid;
 }
 
+p.sectionHeader {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5em;
+    margin-top: -1%;
+    margin-left: 10%;
+}
 div.box {
     padding: 0.8em;
     margin: 0;
@@ -28,9 +35,9 @@ div.box {
     position: relative;
     border: 0.2em solid;
     background-color: lightgray;
-    width: 25%;
-    margin-top: 5%;
-    margin-left: 2%;
+    width: 29%;
+    //margin-top: 5%;
+    margin-left: 1%;
     float: left;
 }
 
@@ -44,6 +51,20 @@ div.box {
         margin-top: 0%;
     }
 
+#outputMessage {
+    border: none;
+    font-size: 1em;
+}
+#deleteOutputMessage {
+    border: none;
+    font-size: 1em;
+}
+#getOutputMessage {
+    border: none;
+    font-size: 1em;
+}
+
+
 div.getAllBox {
     padding: 0.8em;
     margin: 0;
@@ -51,9 +72,9 @@ div.getAllBox {
     position: absolute;
     border: 0.2em solid;
     background-color: lightgray;
-    width: 68%;
-    margin-top: 32%;
-    margin-left: 5.5%;
+    width: 70%;
+    margin-top: 33%;
+    margin-left: 4%;
     height: 30%;
     margin-bottom: 5%;
     overflow-y: scroll;
@@ -69,7 +90,7 @@ div.getAllBox {
         margin-top: 0%;
     }
 
-input[type=submit] {
+.button {
     background-color: black;
     position: relative;
     color: white;
