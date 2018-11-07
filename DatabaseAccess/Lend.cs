@@ -11,9 +11,10 @@ namespace DatabaseAccess
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Lend
     {
+       
         public int Id { get; set; }
         public string BorrowerName { get; set; }
         public int LoanAmount { get; set; }

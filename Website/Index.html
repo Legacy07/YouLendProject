@@ -35,65 +35,93 @@
             });
             //add a loan
             $('#addLoanSubmitButton').click(function () {
-                $.ajax({
-                    type: 'POST',
-                    url: "http://localhost:6970/api/database",
-                    crossDomain: true,
-                    dataType: 'json',
-                    data: {
-                        Id: $('#loanId').val(),
-                        BorrowerName: $('#clientName').val(),
-                        LoanAmount: $('#loanAmount').val(),
-                        RepaymentAmount: $('#repaymentAmount').val()
-                    },
-                    success: function () {
-                        alert("LOAN ADDED!");
+                var idInput = document.getElementById("loanId").value;
+                var clientNameInput = document.getElementById("clientName").value;
+                var repaymentAmountInput = document.getElementById("repaymentAmount").value;
+                var loanAmountInput = document.getElementById("loanAmount").value;
 
-
-                    },
-                    //error in any jquery, xml, http request object
-                    error: function (jqXHR) {
-                        alert("ERROR!: " + jqXHR.responseText);
-                    }
-                });
-                
-
+                if (idInput == "" || clientNameInput == "") {
+                    alert("Please fill in the boxes of 'Add a loan'!");
+                }
+                else if (repaymentAmountInput == "") {
+                    alert("Please calculate the repayment amount before continuing in 'Add a loan'!");
+                }
+                else if (repaymentAmountInput < loanAmountInput) {
+                    alert("Please re-calculate the repayment amount before continuing in 'Add a loan'!");
+                }
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: "http://localhost:6970/api/database",
+                        crossDomain: true,
+                        dataType: 'json',
+                        data: {
+                            Id: $('#loanId').val(),
+                            BorrowerName: $('#clientName').val(),
+                            LoanAmount: $('#loanAmount').val(),
+                            RepaymentAmount: $('#repaymentAmount').val()
+                        },
+                        success: function () {
+                            alert("LOAN ADDED!");
+                        },
+                        //error in any jquery, xml, http request object
+                        error: function (jqXHR) {
+                            alert("ERROR!: " + jqXHR.responseText);
+                        }
+                    });
+                }
             });
             //delete loan
             $('#deleteLoanSubmitButton').click(function () {
                 var loanId = $('#deleteLoanId').val();
 
-                $.ajax({
-                    type: 'DELETE',
-                    url: "http://localhost:6970/api/database/delete/" + loanId,
-                    success: function () {
-                        alert("LOAN DELETED!");
-                    },
-                    //error in any jquery, xml, http request object
-                    error: function (jqXHR) {
-                        alert("ERROR!: " + jqXHR.responseText);
-                    }
-                });
+                var getLoanId = document.getElementById("deleteLoanId").value;
 
+                if (getLoanId == "") {
+                    alert("Please specify the ID number within 'Delete a loan'!");
+                }
+                else {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: "http://localhost:6970/api/database/delete/" + loanId,
+                        success: function () {
+                            alert("LOAN DELETED!");
+                        },
+                        //error in any jquery, xml, http request object
+                        error: function (jqXHR) {
+                            alert("ERROR!: " + jqXHR.responseText);
+                        }
+                    });
+                }
             });
 
             //get a single loan
             $('#getLoanSubmitButton').click(function () {
-                var getLoanId = $('#getLoanId').val();
-                $.ajax({
-                    url: "http://localhost:6970/api/database/" + getLoanId,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    //data: '{id:' + getLoanId + '}',
-                    dataType: 'json',
-                    success: function (data) {
-                        $("#getOutputMessage").text(" yh : " + data.d.BorrowerName);
-                        alert("yh boi");
-                    },
-                    error: function (jqXHR) {
-                        alert("ERROR!: " + jqXHR.responseText);
-                    }
-                });
+                var loanId = $('#getLoanId').val();
+
+                var getLoanId = document.getElementById("getLoanId").value;
+
+                if (getLoanId == "") {
+                    alert("Please specify the ID number within 'Get a loan'!");
+
+                    getLoanId.bgColor(red);
+                }
+                else {
+                    $.ajax({
+                        url: "http://localhost:6970/api/database/" + loanId,
+                        method: 'GET',
+                        contentType: 'application/json',
+                        dataType: 'json',
+                        success: function (data) {
+                            $("#getOutputMessage").text("Client Name: " + data.BorrowerName
+                                + ", Loan Amount: £" + data.LoanAmount + ", Repayment Amount: £"
+                                + data.RepaymentAmount);
+                        },
+                        error: function (jqXHR) {
+                            alert("ERROR!: " + jqXHR.responseText);
+                        }
+                    });
+                }
             });
             //calculate repayment amount
             $("#calculateButton").click(function () {
@@ -160,8 +188,8 @@
                 Loan Id:<br>
                 <input type="number" id="getLoanId" required>
                 <br><br />
-                <input type="button" class="button" name="getLoanSubmitButton" value="Get Loan">
-                <p id="getOutputMessage">Get</p>
+                <input type="button" class="button" id="getLoanSubmitButton" value="Get Loan">
+                <p id="getOutputMessage"></p>
             </form>
         </div>
 
