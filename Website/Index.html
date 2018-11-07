@@ -40,6 +40,7 @@
                 var repaymentAmountInput = document.getElementById("repaymentAmount").value;
                 var loanAmountInput = document.getElementById("loanAmount").value;
 
+                //check for validation
                 if (idInput == "" || clientNameInput == "") {
                     alert("Please fill in the boxes of 'Add a loan'!");
                 }
@@ -77,6 +78,7 @@
 
                 var getLoanId = document.getElementById("deleteLoanId").value;
 
+                //check for validation
                 if (getLoanId == "") {
                     alert("Please specify the ID number within 'Delete a loan'!");
                 }
@@ -100,7 +102,7 @@
                 var loanId = $('#getLoanId').val();
 
                 var getLoanId = document.getElementById("getLoanId").value;
-
+                //check for validation
                 if (getLoanId == "") {
                     alert("Please specify the ID number within 'Get a loan'!");
 
@@ -192,14 +194,16 @@
                 <p id="getOutputMessage"></p>
             </form>
         </div>
-
+    
+      
+    </section>
+    <section class="All">
         <!--Get all loans-->
         <div class="getAllBox">
             <p><b>Get All Loans</b></p>
             <input type="button" class="button" id="getAllLoansButton" value="Show All">
             <ul id="allLoansList"></ul>
             <input type="button" id="clearButton" value="Clear All">
-
         </div>
     </section>
 
